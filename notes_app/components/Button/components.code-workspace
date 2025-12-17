@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"name": "components",
+			"path": ".."
+		},
+		{
+			"name": "scripts",
+			"path": "../../scripts"
+		},
+		{
+			"name": "constants",
+			"path": "../../constants"
+		},
+		{
+			"name": "assets",
+			"path": "../../assets"
+		},
+		{
+			"name": "app",
+			"path": "../../app"
+		},
+		{
+			"name": "std",
+			"path": "../../../../std"
+		},
+		{
+			"name": "hooks",
+			"path": "../../hooks"
+		}
+	],
+	"settings": {}
+}
