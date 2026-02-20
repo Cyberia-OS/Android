@@ -1,0 +1,106 @@
+import kotlin.math.PI
+
+class Book(val title: String, val author: String, var year: Int, var price: Double) {
+    override fun toString(): String = "книга: $title, автор: $author, год: $year, цена: ${price}₽"
+}
+
+class Student(val name: String, val surname: String, var group: String) {
+    val fullName: String
+
+    init {
+        fullName = "$name $surname"
+        println("создан студент: $fullName, группа: $group")
+    }
+}
+
+class BankAccount(initialBalance: Double) {
+    var balance: Double = initialBalance
+        set(value) {
+            if (value < 0) {
+                println("ошибка: баланс не может быть отрицательным!")
+            } else {
+                field = value
+            }
+        }
+
+    val displayBalance: String
+        get() = "баланс: $balance ₽"
+}
+
+enum class OrderStatus(val description: String) {
+    NEW("новый заказ"),
+    PROCESSING("заказ в обработке"),
+    SHIPPED("заказ отправлен"),
+    DELIVERED("заказ доставлен"),
+    CANCELLED("заказ отменён");
+
+    fun isFinished(): Boolean = this == DELIVERED || this == CANCELLED
+}
+
+data class Product(val id: Int, val name: String, var price: Double, var inStock: Boolean)
+
+object ProductCatalog {
+    private val _products = mutableListOf<Product>()
+
+    val products: List<Product>
+        get() = _products.toList()
+
+    fun addProduct(product: Product) {
+        _products.add(product)
+    }
+
+    fun findById(id: Int): Product? = _products.find { it.id == id }
+}
+
+fun main() {
+    println("задание 1: книги")
+    val book1 = Book("война и мир", "лев толстой", 1869, 1200.0)
+    val book2 = Book("преступление и наказание", "фёдор достоевский", 1866, 950.0)
+    val book3 = Book("мастер и маргарита", "михаил булгаков", 1967, 1100.0)
+    book3.price = 1300.0
+    println(book1)
+    println(book2)
+    println(book3)
+
+    println("\nзадание 2: студенты")
+    val student1 = Student("иван", "петров", "ис-21")
+    val student2 = Student("анна", "смирнова", "би-32")
+    println(student1.fullName)
+    println(student2.fullName)
+
+    println("\nзадание 3: банковский счёт")
+    val account = BankAccount(1000.0)
+    println(account.displayBalance)
+    account.balance = -500.0
+    account.balance = 2000.0
+    println(account.displayBalance)
+
+    println("\nзадание 4: статусы заказа")
+    for (status in OrderStatus.values()) {
+        println("${status.name} - ${status.description}")
+    }
+    val finished = OrderStatus.values().filter { it.isFinished() }
+    println("завершённые статусы: ${finished.joinToString { it.name }}")
+
+    println("\nзадание 5: товары и каталог")
+    val product1 = Product(1, "ноутбук", 50000.0, true)
+    val product2 = Product(2, "мышь", 1500.0, true)
+    val product3 = Product(3, "коврик", 500.0, false)
+
+    val product1copy = Product(1, "ноутбук", 50000.0, true)
+    println("product1 == product1copy: ${product1 == product1copy}")
+
+    val product1modified = product1.copy(price = 45000.0)
+    println("оригинал: $product1")
+    println("копия с изменённой ценой: $product1modified")
+
+    ProductCatalog.addProduct(product1)
+    ProductCatalog.addProduct(product2)
+    ProductCatalog.addProduct(product3)
+
+    println("все товары в каталоге:")
+    ProductCatalog.products.forEach { println(it) }
+
+    val found = ProductCatalog.findById(2)
+    println("найден товар с id=2: $found")
+}
